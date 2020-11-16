@@ -39,7 +39,8 @@ $(document).ready(function() {
         	$(this).prev().attr('value',$(this).prev().attr('data-val'));
         	$(this).attr('type','hidden');
         	
-        	$(this).prev().attr('name', 'delfilename'+Number(delcnt));
+//         	$(this).prev().attr('name', 'delfilename'+Number(delcnt));
+        	$(this).prev().attr('name', 'delfilename');
 	        $('#delcnt').val(Number($('#delcnt').val())+1);
         	delcnt++;
 	        $('#atccnt').val(Number($('#atccnt').val())-1);
@@ -89,7 +90,7 @@ $(document).ready(function() {
 			<h2>${postVo.board_name }</h2>
 			<h3></h3>
 			<c:set var="cnt" value="1"/>
-			<form id="form1" method="post" action="${cp }/updatePost" enctype="multipart/form-data">
+			<form id="form1" method="post" action="${cp }/post/updatePost" enctype="multipart/form-data">
 				<input type="hidden" id="sum_parent" name="post_parent" value="0">
 				<input type="hidden" id="userid"     name="userid"      value="${postVo.userid }">
 				<input type="hidden" id="board_name" name="board_name"  value="${postVo.board_name }">
@@ -98,11 +99,11 @@ $(document).ready(function() {
   				<textarea id="sum_content" name="post_content">${postVo.post_content }</textarea>
   				<input type="hidden" id="cnt" name="cnt" >
   				<input type="hidden" id="atccnt" name="atccnt" value="${attachmentList.size() }">
-  				<input type="hidden" id="delcnt" name="delcnt">
+  				<input type="hidden" id="delcnt" name="delcnt" value=0>
 		  		<input type="button" id="addBtn" value="첨부파일추가" class="btn btn-default">
   				<input type="submit" id="writeBtn" value="수정완료" class="btn btn-default"><br>
   				<c:forEach items="${attachmentList }" var="attachment" varStatus="i">
-  					<input type="text" id="fname${i.count }" data-val="${attachment.atc_seq}" name="filename" style="width: 350px" readonly="readonly" class="atc" value="${attachment.atc_rfname}">
+  					<input type="text" id="fname${i.count }" data-val="${attachment.atc_seq}" name="file" style="width: 350px" readonly="readonly" class="atc" value="${attachment.atc_rfname}">
   					<input type="button" class="deleteBtn" class="btn btn-default" value="삭제" onclick=""><br>
 <%--   					<img style="height:50px; width: 50px;" src="${cp }/showAttachment?post_seq=${attachment.post_seq }"/> --%>
   				</c:forEach>

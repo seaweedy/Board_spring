@@ -10,6 +10,12 @@ public class PostVo {
 	String board_name;
 	String userid;
 	int post_status;
+	@Override
+	public String toString() {
+		return "PostVo [post_seq=" + post_seq + ", post_title=" + post_title + ", post_content=" + post_content
+				+ ", post_date=" + post_date + ", board_name=" + board_name + ", userid=" + userid + ", post_status="
+				+ post_status + ", post_parent=" + post_parent + "]";
+	}
 	int post_parent;
 	
 	public PostVo() {

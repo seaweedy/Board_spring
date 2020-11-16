@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -155,86 +156,59 @@ public class PostController {
 		return "post/updatePostForm";
 	}
 	
-//	@RequestMapping("/deletePost")
-//	public String deletePost(int post_seq,int delCnt, Model model) {
-//		
-//		PostVo postVo = postService.selectPost(post_seq);
-//		// post정보 가져옴
-//		
-//		List<AttachmentVo> attachmentList = attachmentService.selectAttachmentList(post_seq);
-//		// attachment정보 가져옴
-//		
-//		//----------------------------------post관련---------------------------
-//		
-//		PostVo updatePostVo = new PostVo();
-//		updatePostVo.setPost_content(postVo.getPost_content());
-//		updatePostVo.setPost_title(postVo.getPost_title());
-//		updatePostVo.setPost_seq(postVo.getPost_seq());
-//		
-//		int updateCnt = postService.updatePost(updatePostVo); // 글 등록
-//		
-//		//----------------------삭제 첨부파일 제거--------------------
-//		
-//		if(delCnt==0) {
-//			delCnt = 0; // 삭제 횟수 값
-//		}else {
-//			delcnt = Integer.parseInt(request.getParameter("delcnt")); // 삭제 횟수 값
-//		}
-//		
-//		int deleteCnt = 0;
-//		if(delcnt > 0) { // 삭제할게 생김
-//			//여기서부터!!!!!
-//			for(int i = 1; i <= delcnt; i++) { // 첨부파일제거 보낸 횟수만큼 진행
-//				int atc_seq = Integer.parseInt(request.getParameter("delfilename"+i));
-//				deleteCnt = attachmentService.deleteOneAttachment(atc_seq); // 첨부파일 삭제
-//			}
-//		}else { // 첨부파일을 보내지않음
-//			
-//		}
-//		
-//		//----------------------새롭게 등록한 첨부파일 등록--------------------
-//		
-//		int cnt = 0; // 새로운 첨부파일
-//		if(request.getParameter("cnt").equals("")) {
-//			cnt = 0; // 새로운 첨부파일 횟수 값
-//		}else {
-//			cnt = Integer.parseInt(request.getParameter("cnt")); // 새로운 첨부파일 횟수 값
-//			
-//		}
-//		
-//		String filepath = "";
-//		String realfilename = "";
-//		int insertatcCnt = 0;
-//		
-//		if(cnt > 0) { // 첨부파일을 하나 이상 보냄
-//			AttachmentVo attachmentVo;
-//			for(int i = 1; i <= cnt; i++) { // 첨부파일 보낸 횟수만큼 진행
-//				Part atch = request.getPart("filename"+i); // 첨부파일 가져오기	
-//				realfilename = FileUploadUtil.getFileName(atch.getHeader("Content-Disposition"));
-//				if(!realfilename.equals("")) {
-//					String extension = "." + FileUploadUtil.getExtension(realfilename); // 확장자 붙이기위한 작업
-//					String uuidfilename = UUID.randomUUID().toString() + extension; // 랜덤한 이름부여 atc_rfname
-//					filepath = "D:\\atch\\" + uuidfilename; // atc_fname
-//					atch.write(filepath);
-//					
-//					attachmentVo = new AttachmentVo();
-//					attachmentVo.setAtc_fname(filepath);
-//					attachmentVo.setAtc_rfname(uuidfilename);
-//					attachmentVo.setPost_seq(post_seq);
-//					
-//					insertatcCnt =  attachmentService.insertAttachment(attachmentVo); // 첨부파일 등록
-//				}
-//			}
-//		}else { // 첨부파일을 보내지않음
-//			realfilename ="";
-//		}
-//		
-//		if(updateCnt == 1) { // 글을 정상적으로 등록
-//			logger.debug("성공!!!!!!!!!!!!!!!!!!");
-//			response.sendRedirect("/selectPost?post_seq="+post_seq+"&userid="+userid);
-//		}else {
-//			response.sendRedirect("/selectPost?post_seq="+post_seq+"&userid="+userid);
-//			logger.debug("실패!!!!!!!!!!!!!!!!!!");
-//		}
-//	}
+	@RequestMapping(path = "/updatePost",method = RequestMethod.POST )
+	public String updatePost(PostVo postVo, int delcnt,
+			Model model,MultipartHttpServletRequest request,
+			RedirectAttributes ra) {
+		logger.debug("PostController.updatePost()진입");
+		//----------------------------------post관련---------------------------
+		
+		logger.debug("postVo확인 {}",postVo);
+		PostVo editPostVo = postService.selectPost(postVo.getPost_seq());
+		
+		int updateCnt = postService.updatePost(postVo); // 글 수정
+		
+		//----------------------삭제 첨부파일 제거--------------------
+		if(delcnt > 0) { // 삭제할게 생김
+			//여기서부터!!!!!
+			for(int i = 1; i <= delcnt; i++) { // 첨부파일제거 보낸 횟수만큼 진행
+				int atc_seq = Integer.parseInt(request.getParameter("delfilename"));
+				attachmentService.deleteOneAttachment(atc_seq); // 첨부파일 삭제
+			}
+		}
+		//----------------------새롭게 등록한 첨부파일 등록--------------------
+		
+		List<MultipartFile> fileList = request.getFiles("filename");
+
+		String path = "d:\\atch\\";
+		
+		for (MultipartFile file : fileList) {
+			logger.debug("껍데기 {}",file.getOriginalFilename());
+			File uploadFile = new File(path + file.getOriginalFilename());
+			
+			String realfilename = file.getOriginalFilename(); // 원본 파일 명(realfilename)
+			String extension = FileUploadUtil.getExtension(realfilename); // 확장자
+			String uuidfilename = UUID.randomUUID().toString()+ "." + extension; // 랜덤한 이름부여 
+			String filename = path + uuidfilename; // atc_rfname
+			
+			uploadFile = new File(filename);
+			
+				logger.debug("파일이름:'{}'", realfilename);
+				AttachmentVo attachmentVo = new AttachmentVo();
+				attachmentVo.setPost_seq(postVo.getPost_seq());
+				attachmentVo.setAtc_fname(filename);
+				attachmentVo.setAtc_rfname(uuidfilename);
+				
+			if(!"".equals(realfilename)) {
+				try {
+					file.transferTo(uploadFile);
+					attachmentService.insertAttachment(attachmentVo);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		ra.addAttribute("postVo", editPostVo);
+		return "redirect:/post/selectView";
+	}
 }
