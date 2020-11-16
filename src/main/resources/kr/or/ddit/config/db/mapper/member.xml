@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+  <select id ="loginMember" parameterType="MemberVo" resultType="MemberVo">
+  	SELECT *
+  	FROM USERS
+  	WHERE userid = #{userid}
+  	AND pass = #{pass}
+  </select>
+
+  <select id="getMember" parameterType="String" resultType="MemberVo">
+	SELECT *
+	FROM USERS
+	WHERE userid = #{userid}
+	
+  </select>
+  
+  <select id="selectAllMember" resultType="MemberVo">
+  	SELECT *
+  	FROM USERS
+  </select>
+  
+  <select id="selectMemberPageList" parameterType = "pageVo" resultType="MemberVo">
+  	SELECT *
+  	FROM 
+  		(SELECT ROWNUM rn, a.*
+  		FROM
+  			(SELECT *
+  				FROM USERS
+  				ORDER BY userid) a )
+  	WHERE rn BETWEEN (#{page}-1) * #{pageSize}+1 AND #{page} * #{pageSize} 
+  </select>
+  
+  <select id="selectMemberTotalCnt" resultType="int">
+  	SELECT COUNT(*)
+  	FROM users
+  </select>
+  
+  <insert id="insertMember" parameterType="MemberVo" >
+  	INSERT INTO users
+  	VALUES( #{userid}, #{usernm}, #{pass}, sysdate, #{alias}, #{addr1}, #{addr2}, #{zipcode}, #{filename}, #{realfilename}) 
+  </insert>
+  
+  <delete id="deleteMember" parameterType="String">
+  	DELETE
+  	FROM users
+  	WHERE userid = #{userid}
+  </delete>
+  
+  <update id="updateMember" parameterType="MemberVo">
+  	UPDATE users
+  	SET usernm = #{usernm},
+	  	pass = #{pass},
+	  	reg_dt = sysdate,
+	  	alias = #{alias},
+	  	addr1 = #{addr1},
+	  	addr2 = #{addr2},
+	  	zipcode = #{zipcode},
+	  	filename = #{filename},
+	  	realfilename = #{realfilename}
+  	WHERE userid = #{userid}
+  	
+  </update>
+ 
+  
+</mapper>

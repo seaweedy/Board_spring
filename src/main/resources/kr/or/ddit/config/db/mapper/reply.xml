@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+	<insert id="insertReply" parameterType="ReplyVo">
+		INSERT INTO REPLY
+		VALUES (#{reply_content}, 1, REPLY_SEQ.NEXTVAL, #{post_seq}, #{userid}, SYSDATE)
+	</insert> 
+	
+	<select id="showReply"  resultType="ReplyVo" parameterType="int">
+		SELECT *
+		FROM REPLY
+		WHERE post_seq = #{post_seq}
+		ORDER BY reply_date desc
+	</select>
+	
+	<update id="deleteReply" parameterType="int">
+		UPDATE REPLY
+		SET reply_status = 2
+		WHERE reply_seq = #{reply_seq}
+	</update>
+</mapper>
