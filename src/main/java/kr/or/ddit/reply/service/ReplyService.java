@@ -2,16 +2,20 @@ package kr.or.ddit.reply.service;
 
 import java.util.List;
 
-import kr.or.ddit.reply.dao.RePlyDao;
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import kr.or.ddit.reply.dao.ReplyDaoI;
 import kr.or.ddit.reply.model.ReplyVo;
 
+@Transactional
+@Service("ReplyService")
 public class ReplyService implements ReplyServiceI{
-	public ReplyDaoI replyDao;
 	
-	public ReplyService(){
-		replyDao = new RePlyDao();
-	}
+	@Resource(name="ReplyRepository")
+	private ReplyDaoI replyDao;
 	
 	@Override
 	public int insertReply(ReplyVo replyVo) {

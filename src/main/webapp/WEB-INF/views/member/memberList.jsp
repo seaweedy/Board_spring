@@ -69,12 +69,51 @@
 						<ul class="pagination">
 							<c:forEach var="i" begin="1" end="${pages}">
 								<c:choose>
+									<c:when test="${pageVo.page == 1 }">
+										<li class="active"><span>&lt;&lt;</span></li>
+									</c:when>
+									<c:when test="${pageVo.page != 1 }">
+										<li><a href="${cp }/member/list?page=1">&lt;&lt;</a></li>
+									</c:when>
+								</c:choose>
+								<c:choose>
+									<c:when test="${pageVo.page == 1 }">
+										<li class="active"><span>&lt;</span></li>
+									</c:when>
+									<c:when test="${page != 1 }">
+										<li><a href="${cp }/member/list?page=${i-1}">&lt;</a></li>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+						
+							<c:forEach var="i" begin="1" end="${pages}">
+								<c:choose>
 									<c:when test="${i == page}">
 										<li class="active"><span>${i }</span></li>
 									</c:when>
 									<c:otherwise>
 										<li><a href="${cp }/member/list?page=${i}">${i}</a></li>
 									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							
+							
+							<c:forEach var="i" begin="1" end="${pages}">
+								<c:choose>
+									<c:when test="${pageVo.page == pages }">
+										<li class="active"><span>&gt;</span></li>
+									</c:when>
+									<c:when test="${pageVo.page != pages }">
+										<li><a href="${cp }/member/list?page=${i+1}">&gt;</a></li>
+									</c:when>
+								</c:choose>
+								<c:choose>
+									<c:when test="${pageVo.page == pages }">
+										<li class="active"><span>&gt;&gt;</span></li>
+									</c:when>
+									<c:when test="${pageVo.page != pages }">
+										<li><a href="${cp }/member/list?page=${pages}">&gt;&gt;</a></li>
+									</c:when>
 								</c:choose>
 							</c:forEach>
 						</ul>

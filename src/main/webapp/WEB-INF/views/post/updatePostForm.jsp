@@ -91,10 +91,10 @@ $(document).ready(function() {
 			<h3></h3>
 			<c:set var="cnt" value="1"/>
 			<form id="form1" method="post" action="${cp }/post/updatePost" enctype="multipart/form-data">
-				<input type="hidden" id="sum_parent" name="post_parent" value="0">
+				<input type="hidden" id="sum_parent" name="post_parent" value=0>
 				<input type="hidden" id="userid"     name="userid"      value="${postVo.userid }">
 				<input type="hidden" id="board_name" name="board_name"  value="${postVo.board_name }">
-				<input type="hidden" id="post_seq" name="post_seq"  value="${postVo.post_seq }">
+				<input type="hidden" id="post_seq" name="post_seq"  value=${postVo.post_seq }>
 		  제목 : <input type="text"   id="sum_title"  name="post_title"  value="${postVo.post_title }" size="80" ><br><br>
   				<textarea id="sum_content" name="post_content">${postVo.post_content }</textarea>
   				<input type="hidden" id="cnt" name="cnt" >
@@ -103,7 +103,7 @@ $(document).ready(function() {
 		  		<input type="button" id="addBtn" value="첨부파일추가" class="btn btn-default">
   				<input type="submit" id="writeBtn" value="수정완료" class="btn btn-default"><br>
   				<c:forEach items="${attachmentList }" var="attachment" varStatus="i">
-  					<input type="text" id="fname${i.count }" data-val="${attachment.atc_seq}" name="file" style="width: 350px" readonly="readonly" class="atc" value="${attachment.atc_rfname}">
+  					<input type="text" id="fname${i.count }" data-val="${attachment.atc_seq}" name="beforefile" style="width: 350px" readonly="readonly" class="atc" value="${attachment.atc_rfname}">
   					<input type="button" class="deleteBtn" class="btn btn-default" value="삭제" onclick=""><br>
 <%--   					<img style="height:50px; width: 50px;" src="${cp }/showAttachment?post_seq=${attachment.post_seq }"/> --%>
   				</c:forEach>

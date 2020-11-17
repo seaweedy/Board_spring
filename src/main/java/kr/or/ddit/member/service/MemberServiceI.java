@@ -8,8 +8,6 @@ import kr.or.ddit.member.model.MemberVo;
 
 public interface MemberServiceI {
 	
-	MemberVo loginMember(MemberVo memberVo);
-
 	MemberVo getMember(String userId);
 	
 	List<MemberVo> selectAllMember();
@@ -17,8 +15,6 @@ public interface MemberServiceI {
 	Map<String, Object> selectMemberPageList(PageVo pageVo);
 	
 	int insertMember(MemberVo memberVo);
-	
-	int deleteMember(String userid);
 	
 	int updateMember(MemberVo memberVo);
 

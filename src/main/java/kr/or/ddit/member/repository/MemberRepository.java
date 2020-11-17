@@ -17,10 +17,6 @@ public class MemberRepository implements MemberRepositoryI {
 	@Resource(name="sqlSessionTemplate")
 	private SqlSessionTemplate sqlSession;
 	
-	@Override
-	public MemberVo loginMember(MemberVo memberVo) {
-		return sqlSession.selectOne("member.loginMember",memberVo);
-	}
 	
 	@Override
 	public MemberVo getMember(String userid) {
@@ -61,12 +57,6 @@ public class MemberRepository implements MemberRepositoryI {
 	public int insertMember(MemberVo memberVo) {
 		int insertCnt = sqlSession.insert("member.insertMember",memberVo);
 		return insertCnt;
-	}
-
-	@Override
-	public int deleteMember(String userid) {
-		int deleteCnt = sqlSession.delete("member.deleteMember",userid);
-		return deleteCnt;
 	}
 
 	@Override

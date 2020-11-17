@@ -23,11 +23,6 @@ public class MemberService implements MemberServiceI {
 	private MemberRepositoryI memberRepository;
 	
 	@Override
-	public MemberVo loginMember(MemberVo memberVo) {
-		return memberRepository.loginMember(memberVo);
-	}
-	
-	@Override
 	public MemberVo getMember(String userid) {
 		return memberRepository.getMember(userid);
 	}
@@ -54,11 +49,6 @@ public class MemberService implements MemberServiceI {
 	@Override
 	public int insertMember(MemberVo memberVo) {
 		return memberRepository.insertMember(memberVo);
-	}
-
-	@Override
-	public int deleteMember(String userid) {
-		return memberRepository.deleteMember(userid);
 	}
 
 	@Override

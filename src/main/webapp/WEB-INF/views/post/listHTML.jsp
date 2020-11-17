@@ -65,7 +65,7 @@
 		</c:when>
 		<c:otherwise>
 			<li><a
-				href="${cp }/selectAllPost?page=${i}&boardname=${boardname}">${i}</a></li>
+				href="javascript:postListHTML(${i });">${i}</a></li>
 		</c:otherwise>
 	</c:choose>
 </c:forEach>

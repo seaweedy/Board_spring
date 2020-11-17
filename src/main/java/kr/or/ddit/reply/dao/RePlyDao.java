@@ -2,51 +2,34 @@ package kr.or.ddit.reply.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import javax.annotation.Resource;
 
-import kr.or.ddit.db.MybatisUtil;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
 import kr.or.ddit.reply.model.ReplyVo;
 
+@Repository("ReplyRepository")
 public class RePlyDao implements ReplyDaoI{
+	
+	@Resource(name="sqlSessionTemplate")
+	private SqlSessionTemplate sqlSession;
 	
 	@Override
 	public int insertReply(ReplyVo replyVo) {
-		SqlSession sqlSession = MybatisUtil.getSqlSession();
-		int insertCnt = 0;
-		try {
-			insertCnt = sqlSession.insert("reply.insertReply",replyVo);
-		} catch (Exception e) {
-		}
-		if(insertCnt ==1) {
-			sqlSession.commit();
-		}else {
-			sqlSession.rollback();
-		}
-		sqlSession.close();
+		int insertCnt = sqlSession.insert("reply.insertReply",replyVo);
 		return insertCnt;
 	}
+	
 	@Override
 	public List<ReplyVo> showReply(int post_seq) {
-		SqlSession sqlSession = MybatisUtil.getSqlSession();
 		List<ReplyVo> replyList = sqlSession.selectList("reply.showReply",post_seq);
-		sqlSession.close();
 		return replyList;
 	}
 	
 	@Override
 	public int deleteReply(int reply_seq) {
-		SqlSession sqlSession = MybatisUtil.getSqlSession();
-		int deleteCnt = 0;
-		try {
-			deleteCnt = sqlSession.update("reply.deleteReply", reply_seq);
-		} catch (Exception e) {
-		}
-		if(deleteCnt == 1) {
-			sqlSession.commit();
-		}else {
-			sqlSession.rollback();
-		}
-		sqlSession.close();
+		int deleteCnt = sqlSession.update("reply.deleteReply", reply_seq);
 		return deleteCnt;
 	}
 	

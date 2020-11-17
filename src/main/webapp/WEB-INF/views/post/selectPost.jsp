@@ -64,10 +64,10 @@ $(document).ready(function() {
 		 		<label>제목 : ${postVo.post_title }</label><br>
 		  		<label>작성자 : ${postVo.userid }</label><br>
 		  		<label>작성일 : <fmt:formatDate value="${postVo.post_date }" pattern="yyyy-MM-dd"/></label>
-		  		<a href="/insertAnswerPost?post_seq=${postVo.post_seq }&boardname=${postVo.board_name}&userid=${postVo.userid }&post_title=${postVo.post_title}" type="button" style="float:right"class="btn btn-default" >답글</a>
+		  		<a href="/post/insertAnswerView?post_seq=${postVo.post_seq }&board_name=${postVo.board_name}&userid=${postVo.userid }&post_title=${postVo.post_title}" type="button" style="float:right"class="btn btn-default" >답글</a>
   				<c:choose>
 					<c:when test="${S_MEMBER.userid == postVo.userid }">
-		  				<a href="/deletePost?post_seq=${postVo.post_seq }&board_name=${postVo.board_name}" type="button" style="float:right"class="btn btn-default" >삭제</a>
+		  				<a href="/post/delete?post_seq=${postVo.post_seq }&board_name=${postVo.board_name}" type="button" style="float:right"class="btn btn-default" >삭제</a>
 		  				<a href="/post/updateView?post_seq=${postVo.post_seq }&userid=${postVo.userid }" type="button" style="float:right" class="btn btn-default" >수정</a><br><br>
 					</c:when>  				
   				</c:choose>
@@ -76,7 +76,7 @@ $(document).ready(function() {
   				<input type="hidden" id="cnt" name="cnt">
   				<c:forEach items="${attachmentList }" var="attachment">
 <%--   					<img alt="" src="${cp }/showAttachment?post_seq=${attachment.post_seq }"/> --%>
-	  				<a href="/downAttachment?atc_seq=${attachment.atc_seq }" type="button" class="btn btn-default" >다운로드 : ${attachment.atc_rfname }</a><br><br>
+	  				<a href="/post/AtchDownloadView?atc_seq=${attachment.atc_seq }" type="button" class="btn btn-default" >다운로드 : ${attachment.atc_rfname }</a><br><br>
   				</c:forEach>
 			</form>
 			<table class="table table-striped">
@@ -94,8 +94,8 @@ $(document).ready(function() {
 								<td>
 									<fmt:formatDate value="${reply.reply_date }"/>
 									<c:choose>
-										<c:when test="${userid == reply.userid }">
-							  				<a href="/deleteReply?reply_seq=${reply.reply_seq}&userid=${postVo.userid}&post_seq=${reply.post_seq}" type="button" style="float:right"class="btn btn-default" >삭제</a>
+										<c:when test="${S_MEMBER.userid == reply.userid }">
+							  				<a href="/reply/replyDelete?reply_seq=${reply.reply_seq}&userid=${reply.userid}&post_seq=${reply.post_seq}" type="button" style="float:right"class="btn btn-default" >삭제</a>
 										</c:when>
 									</c:choose>
 								</td>
@@ -111,9 +111,9 @@ $(document).ready(function() {
 					</c:choose>
 				</c:forEach>
 			</table>
-			<label style="vertical-align: middle;">아이디 : ${userid }</label>
-			<form id="replyForm" method="post" action="${cp}/insertReply ">
-		  		<input type="hidden"   id="userid"     name="userid"      value="${userid }" readonly="readonly"> <!-- 로그인한 사람의 아이디 -->
+			<label style="vertical-align: middle;">아이디 : ${S_MEMBER.userid }</label>
+			<form id="replyForm" method="post" action="${cp}/reply/replyInsert">
+		  		<input type="hidden"   id="userid"     name="userid"      value="${S_MEMBER.userid }" readonly="readonly"> <!-- 로그인한 사람의 아이디 -->
 				<input type="hidden" id="post_seq" name="post_seq"  value="${postVo.post_seq }">
 				<textarea  name="reply_content" style="width:1200px; height:80px; resize: none" placeholder="댓글을 입력해주세요"></textarea>
 				<input type="submit" value="등록" class="btn btn-default" style="margin-bottom: 70px;height: 80px;" >

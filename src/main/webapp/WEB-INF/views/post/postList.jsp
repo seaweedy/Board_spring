@@ -41,7 +41,7 @@
 					$("#postList").html(html[0]);
 					$(".pagination").html(html[1]);
 				}
-		})
+		});
 	}
 </script>
 <style>

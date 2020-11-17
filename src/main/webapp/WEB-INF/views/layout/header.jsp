@@ -14,7 +14,7 @@
 <%-- 			<a class="navbar-brand" href="#">JSP/SPRING [<%= memberVo == null ? "" : memberVo.getUserid()%>]</a> --%>
 			<!-- 접속을 안했을 때 : 		=> []
 			접속을 했을 때 : [brown] => [brown] -->
-			<a class="navbar-brand" href="#">JSP/SPRING
+			<a class="navbar-brand" href="/member/main">JSP/SPRING
 				<c:choose>
 					<c:when test="${S_MEMBER.userid !=null}">[${S_MEMBER.userid}]</c:when>
 				</c:choose>

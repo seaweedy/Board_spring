@@ -23,7 +23,7 @@ $(document).ready(function() {
     
     $('#addBtn').click(function(){
         if(extcnt <= maxField){
-		    var fieldHTML = '<input type="file" class="btn btn-default" id="fname'+extcnt+'" name="filename'+extcnt+'">';
+		    var fieldHTML = '<input type="file" class="btn btn-default" id="fname'+extcnt+'" name="filename">';
 	        $('#cnt').val(extcnt)
             extcnt++; // 숫자 증가
             $('#form1').append(fieldHTML); // Add field
@@ -68,13 +68,13 @@ $(document).ready(function() {
 			<%@ include file="../layout/left.jsp" %>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h2>${boardname }</h2>
-			<h5>${post_title }의 답글</h5>
+			<h2>${postVo.board_name }</h2>
+			<h5>${postVo.post_title }의 답글</h5>
 			<c:set var="cnt" value="1"/>
-			<form id="form1" method="post" action="${cp }/insertAnswerPost" enctype="multipart/form-data">
-				<input type="hidden" id="sum_parent" name="post_parent" value="${post_parent }">
-				<input type="hidden" id="userid"     name="userid"      value="${userid }">
-				<input type="hidden" id="board_name" name="board_name"  value="${boardname }">
+			<form id="form1" method="post" action="${cp }/post/insertAnswerPost" enctype="multipart/form-data">
+				<input type="hidden" id="sum_parent" name="post_parent" value="${postVo.post_seq }">
+				<input type="hidden" id="userid"     name="userid"      value="${postVo.userid }">
+				<input type="hidden" id="board_name" name="board_name"  value="${postVo.board_name }">
 		  제목 : <input type="text"   id="sum_title"  name="post_title"  value="" size="80" ><br><br>
   				<textarea id="sum_content" name="post_content"></textarea>
   				<input type="hidden" id="cnt" name="cnt">

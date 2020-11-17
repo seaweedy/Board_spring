@@ -16,6 +16,23 @@
 
 $$$SEPERATOR$$$
 
+	<c:choose>
+		<c:when test="${pageVo.page == 1 }">
+			<li class="active"><span>&lt;&lt;</span></li>
+		</c:when>
+		<c:when test="${pageVo.page != 1 }">
+			<li><a href="javascript:memberListHTML(1);">&lt;&lt;</a></li>
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${pageVo.page == 1 }">
+			<li class="active"><span>&lt;</span></li>
+		</c:when>
+		<c:when test="${page != 1 }">
+			<li><a href="javascript:memberListHTML(${pageVo.page-1 });">&lt;</a></li>
+		</c:when>
+	</c:choose>
+
 <c:forEach var="i" begin="1" end="${pages}">
 	<c:choose>
 		<c:when test="${i == pageVo.page}">
@@ -26,3 +43,20 @@ $$$SEPERATOR$$$
 		</c:otherwise>
 	</c:choose>
 </c:forEach>
+
+	<c:choose>
+		<c:when test="${pageVo.page == pages }">
+			<li class="active"><span>&gt;</span></li>
+		</c:when>
+		<c:when test="${pageVo.page != pages }">
+			<li><a href="javascript:memberListHTML(${pageVo.page+1 });">&gt;</a></li>
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${pageVo.page == pages }">
+			<li class="active"><span>&gt;&gt;</span></li>
+		</c:when>
+		<c:when test="${pageVo.page != pages }">
+			<li><a href="javascript:memberListHTML(${pages });">&gt;&gt;</a></li>
+		</c:when>
+	</c:choose>
