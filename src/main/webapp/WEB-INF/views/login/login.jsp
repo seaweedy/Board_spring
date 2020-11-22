@@ -1,5 +1,18 @@
+<%@page import="java.math.BigInteger"%>
+<%@page import="java.security.SecureRandom"%>
+<%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
+<%@ page import="java.net.URL" %>
+<%@ page import="java.net.HttpURLConnection" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.InputStreamReader" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -91,6 +104,25 @@
           </label>
         </div>
         <input type="submit" class="btn btn-lg btn-primary btn-block"value="Sign in">
+        
+        
+        
+        <!-- ---------- -->
+		<a href="https://kauth.kakao.com/oauth/authorize?
+			client_id=142c5b4e11a4390d914a87480e37dd02&
+			redirect_uri=http://localhost/login/kakao&
+			response_type=code">
+			<img height="46px" width="300px" src="/images/kakao_login_large_wide.png" />
+		</a>
+		<!-- ---------- -->
+		
+		
+		<!-- ---------- -->
+  		<a href="${url}"><img height="50px" width="300px" src="/images/네이버 아이디로 로그인_완성형_Green.PNG"/></a>
+        <!-- ---------- -->
+        
+        
+        
       </form>
 
     </div> <!-- /container -->
